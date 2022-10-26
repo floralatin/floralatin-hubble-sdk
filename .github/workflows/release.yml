@@ -91,11 +91,13 @@ jobs:
       - name: generate conda recipe
         run: python scripts/generate-conda-recipe.py
 
-      - name: use conda build
-        run: conda build -c conda-forge --python 3.7 conda --output-folder anaconda/${{ matrix.project-name }}
+      - name: conda build
+        run: conda build -c conda-forge --python 3.7 conda --output-folder anaconda
 
-      - name: conda test local
-        run: conda install --use-local ${{ matrix.project-name }}
+      - name: conda install local
+        run: conda install -c conda-forge --use-local ${{ matrix.project-name }}
 
+      - name: conda convert
+        run: conda convert anaconda/*/${{ matrix.project-name }}*.tar.bz2 -p all
       - name: anaconda upload 
-        run: export ANACONDA_API_TOKEN=${{ secrets.ANACONDA_TOKEN }} anaconda upload -c anaconda -c conda-forge */${{ matrix.project-name }}*.tar.bz2
+        run: export ANACONDA_API_TOKEN=${{ secrets.ANACONDA_TOKEN }} anaconda upload -c anaconda -c conda-forge anaconda/*/${{ matrix.project-name }}*.tar.bz2
