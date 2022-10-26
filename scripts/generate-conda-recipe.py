@@ -30,43 +30,39 @@ def get_lines(file: str, start: int, end: int):
     return read_lines[ start:end ]
 
 
-def insert_lines(file: str, insert_lines: list, start: int = 0):
-    with open(file, 'r+') as fd:
-        contents = fd.readlines()
-        for index,line in enumerate(insert_lines):
-            contents.insert(start + index, line)
-            fd.seek(0)
-        fd.writelines(contents)
+def generate_meta_yaml(source_path: str, target_path: str):
 
+    save_lines = get_lines(source_path, 0, 2)
+    delete_lines(source_path, 2)
 
-def generate_meta_yaml(path: str, target_path: str):
-    path = "conda/floralatin-hubble-sdk/meta.yaml"
-
-    save_lines = get_lines(path, 0, 2)
-    delete_lines(path, 2)
-
-    with open(path) as f:
+    with open(source_path) as f:
         meta_dict = yaml.safe_load(f)
-
+    
         meta_dict['package'] = {'name': '<{ name|lower }>', 'version': '<{ version }>'}
-
         requirements = meta_dict['requirements']
         if(meta_dict['requirements'] and meta_dict['requirements']['host']):
             meta_dict['requirements']['host'] = ['docker-py' if item == 'docker' else item for item in meta_dict['requirements']['run']]
         if(meta_dict['requirements'] and meta_dict['requirements']['run']):
             meta_dict['requirements']['run'] = ['docker-py' if item == 'docker' else item for item in meta_dict['requirements']['run']]
 
-    with open(target_path, 'w+') as fp:
-        recipe = yaml.dump(
-            meta_dict,
-            Dumper=RecipeDumper,
-            width=1000,
-            sort_keys=False,
-            default_style=None,
-        )
-        recipe = recipe.replace('<{', '{{').replace('}>', '}}')
+    recipe = yaml.dump(
+        meta_dict,
+        Dumper=RecipeDumper,
+        width=1000,
+        sort_keys=False,
+        default_style=None,
+    )
+    recipe = recipe.replace('<{', '{{').replace('}>', '}}')
+
+    recipe_header = ''
+    for index, line in enumerate(save_lines):
+        recipe_header =  f'{recipe_header}{line}'
+    recipe = recipe_header + recipe
+
+    with open(source_path, 'w+') as fp:
         fp.write(recipe)
-    
-    insert_lines(target_path, save_lines)
+
+    with open(target_path, 'w+') as fp:
+        fp.write(recipe)
 
 generate_meta_yaml("conda/floralatin-hubble-sdk/meta.yaml", 'conda/meta.yaml')
