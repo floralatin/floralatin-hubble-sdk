@@ -67,22 +67,19 @@ jobs:
         with:
           lfs: true
       - name: Setup conda
-        uses: s-weigand/setup-conda@v1
+        uses: conda-incubator/setup-miniconda@v2
         with:
-          update-conda: true
+          miniconda-version: "latest"
+          activate-environment: jina
+          channels: conda-forge
           python-version: 3.7
-          conda-channels: anaconda, conda-forge
       - name: install conda-build
-        run: conda install conda-build
+        run: conda install -y anaconda-client conda-build
       - name: use conda
         run: conda skeleton pypi floralatin-hubble-sdk --output-dir conda
-
       - name: use conda list
-        run: conda list
-      - name: publish-to-conda
-        uses: MichaelsJP/conda-package-publish-action@v1.0.0
-        with:
-          subDir: 'conda'
-          AnacondaToken: ${{ secrets.ANACONDA_TOKEN }}
-          platforms: 'all'
-          override: true
+        run: |
+          conda info
+          conda list
+          conda config --show-sources
+          conda config --show
