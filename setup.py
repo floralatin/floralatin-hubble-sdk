@@ -11,8 +11,8 @@ _keywords = (
     'fine-tuning pretrained-models triplet-loss metric-learning '
     'siamese-network few-shot-learning'
 )
-_url = 'https://github.com/floralatin/floralatin-hubble-sdk/'
-_download_url = 'https://github.com/floralatin/floralatin-hubble-sdk/tags'
+_url = 'https://github.com/jina-ai/hubble-client-python/'
+_download_url = 'https://github.com/jina-ai/hubble-client-python/tags'
 _classifiers = [
     'Development Status :: 3 - Alpha',
     'Intended Audience :: Developers',
@@ -27,8 +27,8 @@ _classifiers = [
     'Topic :: Scientific/Engineering :: Artificial Intelligence',
 ]
 _project_urls = {
-    'Source': 'https://github.com/floralatin/floralatin-hubble-sdk/',
-    'Tracker': 'https://github.com/floralatin/floralatin-hubble-sdk/issues',
+    'Source': 'https://github.com/jina-ai/hubble-client-python/',
+    'Tracker': 'https://github.com/jina-ai/hubble-client-python/issues',
 }
 _license = 'Proprietary'
 _package_exclude = ['*.tests', '*.tests.*', 'tests.*', 'tests']
