@@ -78,7 +78,7 @@ jobs:
       - name: install conda-build
         run: conda install -y anaconda-client conda-build
       - name: use conda
-        run: conda skeleton pypi --recursive floralatin-hubble-sdk python-version 3.7 --output-dir conda
+        run: conda skeleton pypi floralatin-hubble-sdk --python-version 3.7 --output-dir conda
       - name: use conda list
         run: |
           conda info
