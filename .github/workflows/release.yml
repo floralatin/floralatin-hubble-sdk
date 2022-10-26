@@ -88,6 +88,16 @@ jobs:
       - name: use conda build
         run: conda build -c conda-forge --python 3.7 conda/floralatin-hubble-sdk --output-folder anaconda/floralatin-hubble-sdk 
 
+
+      - name: list info
+        run: |
+          pwd
+          ls 
+
+          ls conda
+          ls conda/floralatin-hubble-sdk
+          ls anaconda/floralatin-hubble-sdk 
+
       - name: Anaconda upload 
         run: export ANACONDA_API_TOKEN=${{ secrets.ANACONDA_TOKEN }} anaconda upload anaconda/floralatin-hubble-sdk
       
