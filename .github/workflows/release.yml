@@ -75,14 +75,14 @@ jobs:
       - name: install conda-build
         run: conda install conda-build
       - name: use conda
-        run: conda skeleton pypi floralatin-hubble-sdk --output-dir ./conda
+        run: conda skeleton pypi floralatin-hubble-sdk --output-dir conda
 
       - name: use conda list
         run: conda list
       - name: publish-to-conda
         uses: MichaelsJP/conda-package-publish-action@v1.0.0
         with:
-          subDir: './conda'
+          subDir: 'conda'
           AnacondaToken: ${{ secrets.ANACONDA_TOKEN }}
           platforms: 'all'
           override: true
