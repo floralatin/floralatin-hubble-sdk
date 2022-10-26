@@ -42,19 +42,6 @@ requirements:
     - requests
     - rich
 
-test:
-  imports:
-    - hubble
-    - hubble.client
-    - hubble.executor
-    - hubble.executor.parsers
-    - hubble.parsers
-    - hubble.utils
-  commands:
-    - jina-auth --help
-    - jina-hub --help
-    - docker-credential-jina-hubble --help
-
 about:
   home: "https://github.com/jina-ai/hubble-client-python/"
   license: Proprietary
