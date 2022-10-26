@@ -61,7 +61,6 @@ jobs:
   
   release-conda:
     runs-on: ubuntu-latest
-    needs: release-pypi
     steps:
       - uses: actions/checkout@v3
         with:
