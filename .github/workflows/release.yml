@@ -72,18 +72,19 @@ jobs:
       - name: Setup conda
         uses: s-weigand/setup-conda@v1
         with:
-          update-conda: true
+          update-conda: false
           python-version: 3.7
           conda-channels: anaconda, conda-forge
-      - name: install conda-build
+      - name: install anaconda-client conda-build
         run: conda install -y anaconda-client conda-build
       - name: use conda
         run: conda skeleton pypi floralatin-hubble-sdk --python-version 3.7 --output-dir conda
       - name: use conda list
         run: |
           conda info
-
+          pwd
           ls 
+          ls conda
       - name: use conda build
         run: conda build -c conda-forge --python 3.7 conda/floralatin-hubble-sdk --output-folder anaconda/floralatin-hubble-sdk 
 
