@@ -83,3 +83,6 @@ jobs:
           conda list
           conda config --show-sources
           conda config --show
+          ls /home/runner/conda_pkgs_dir
+
+          ls /usr/share/miniconda3
