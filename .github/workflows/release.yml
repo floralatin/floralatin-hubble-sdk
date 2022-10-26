@@ -86,7 +86,7 @@ jobs:
           ls 
 
           ls conda
-          le conda/floralatin-hubble-sdk/
+          ls conda/floralatin-hubble-sdk/
           echo github.ref: ${{ github.ref }}
 
       - name: use conda build
