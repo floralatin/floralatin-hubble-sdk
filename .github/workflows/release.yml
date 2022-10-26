@@ -33,7 +33,7 @@ jobs:
   #       with:
   #         files: ./coverage.xml
 
-  release-pypi:
+  release:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -57,13 +57,21 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
         run: npx semantic-release
+
   
   release-conda:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        project-name: ["floralatin-hubble-sdk"]
     steps:
       - uses: actions/checkout@v3
         with:
           lfs: true
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: 3.7
       - name: Setup conda
         uses: s-weigand/setup-conda@v1
         with:
@@ -72,38 +80,16 @@ jobs:
           conda-channels: anaconda, conda-forge
       - name: install anaconda-client conda-build
         run: conda install -y anaconda-client conda-build
-      # - name: conda skeleton pypi floralatin-hubble-sdk
-      #   run: conda skeleton pypi floralatin-hubble-sdk --python-version 3.7  --output-dir conda
-
-      # - name: list info
-      #   run: |
-      #     pwd
-      #     ls 
-
-      #     ls conda
-      #     ls conda/floralatin-hubble-sdk/
-      #     echo github.ref: ${{ github.ref }}
+      - name: conda skeleton pypi ${{ matrix.project-name }}
+        run: conda skeleton pypi ${{ matrix.project-name }} --python-version 3.7  --output-dir conda
+      - name: generate conda recipe
+        run: python script/generate-conda-recipe.py
 
       - name: use conda build
-        run: conda build -c conda-forge --python 3.7 conda/floralatin-hubble-sdk --output-folder anaconda/floralatin-hubble-sdk 
+        run: conda build -c conda-forge --python 3.7 conda --output-folder anaconda/${{ matrix.project-name }}
 
-
-      - name: list info
-        run: |
-          pwd
-          ls 
-
-          ls conda
-          ls conda/floralatin-hubble-sdk
-          ls anaconda/floralatin-hubble-sdk 
+      - name: conda test local
+        run: conda install --use-local ${{ matrix.project-name }}
 
       - name: Anaconda upload 
-        run: export ANACONDA_API_TOKEN=${{ secrets.ANACONDA_TOKEN }} anaconda upload -c anaconda -c conda-forge anaconda/floralatin-hubble-sdk/*.tar.bz2
-      
-      - name: use conda list
-        run: |
-          conda info
-
-          ls 
-
-          ls floralatin-hubble-sdk 
+        run: export ANACONDA_API_TOKEN=${{ secrets.ANACONDA_TOKEN }} anaconda upload -c anaconda -c conda-forge */${{ matrix.project-name }}*.tar.bz2

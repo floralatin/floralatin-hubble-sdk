@@ -1,12 +1,11 @@
 {% set name = "floralatin-hubble-sdk" %}
 {% set version = "1.0.2" %}
-
 package:
-  name: "{{ name|lower }}"
-  version: "{{ version }}"
+  name: {{ name|lower }}
+  version: {{ version }}
 
 source:
-  url: "https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz"
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: 43d766eddb7486034d3efa3ce9350b3bfdbc5bfb79cc3edfcd3dfd905f75f0e3
 
 build:
@@ -15,7 +14,7 @@ build:
     - jina-auth=hubble.__main__:main
     - jina-hub=hubble.executor.__main__:main
     - docker-credential-jina-hubble=hubble.dockerauth:main
-  script: "{{ PYTHON }} -m pip install . -vv"
+  script: '{{ PYTHON }} -m pip install . -vv'
 
 requirements:
   host:
@@ -25,7 +24,6 @@ requirements:
     - filelock
     - importlib-metadata
     - pathspec
-    - pip
     - python
     - pyyaml
     - requests
@@ -42,14 +40,27 @@ requirements:
     - requests
     - rich
 
+test:
+  imports:
+    - hubble
+    - hubble.client
+    - hubble.executor
+    - hubble.executor.parsers
+    - hubble.parsers
+    - hubble.utils
+  commands:
+    - jina-auth --help
+    - jina-hub --help
+    - docker-credential-jina-hubble --help
+
 about:
-  home: "https://github.com/jina-ai/hubble-client-python/"
+  home: https://github.com/jina-ai/hubble-client-python/
   license: Proprietary
   license_family: PROPRIETARY
-  license_file: 
-  summary: "SDK for Hubble API at Jina AI."
-  doc_url: 
-  dev_url: 
+  license_file: null
+  summary: SDK for Hubble API at Jina AI.
+  doc_url: null
+  dev_url: null
 
 extra:
   recipe-maintainers:
