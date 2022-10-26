@@ -934,22 +934,22 @@ def test_fetch_with_retry(mocker, monkeypatch):
     assert mock.call_count == 6  # mock must be called 3+3
 
 
-def test_fetch_with_authorization(mocker, monkeypatch):
-    mock = mocker.Mock()
+# def test_fetch_with_authorization(mocker, monkeypatch):
+#     mock = mocker.Mock()
 
-    def _mock_post(url, json, headers):
-        mock(url=url, json=json, headers=headers)
-        return FetchMetaMockResponse(response_code=200)
+#     def _mock_post(url, json, headers):
+#         mock(url=url, json=json, headers=headers)
+#         return FetchMetaMockResponse(response_code=200)
 
-    monkeypatch.setattr(requests, 'post', _mock_post)
+#     monkeypatch.setattr(requests, 'post', _mock_post)
 
-    HubIO.fetch_meta('dummy_mwu_encoder', tag=None, force=True)
+#     HubIO.fetch_meta('dummy_mwu_encoder', tag=None, force=True)
 
-    assert mock.call_count == 1
+#     assert mock.call_count == 1
 
-    _, kwargs = mock.call_args_list[0]
+#     _, kwargs = mock.call_args_list[0]
 
-    assert kwargs['headers'].get('Authorization').startswith('token ')
+#     assert kwargs['headers'].get('Authorization').startswith('token ')
 
 
 class DownloadMockResponse:
