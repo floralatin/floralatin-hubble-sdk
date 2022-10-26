@@ -89,7 +89,7 @@ jobs:
             ls
 
       - name: generate conda recipe
-        run: python script/generate-conda-recipe.py
+        run: python scripts/generate-conda-recipe.py
 
       - name: use conda build
         run: conda build -c conda-forge --python 3.7 conda --output-folder anaconda/${{ matrix.project-name }}
