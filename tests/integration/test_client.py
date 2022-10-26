@@ -1,6 +1,4 @@
-import io
 import os
-import uuid
 
 import pytest
 from hubble.client.client import Client
