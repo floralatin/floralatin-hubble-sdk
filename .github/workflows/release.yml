@@ -61,6 +61,7 @@ jobs:
   
   release-conda:
     runs-on: ubuntu-latest
+    needs: release
     strategy:
       matrix:
         project-name: ["floralatin-hubble-sdk"]
@@ -82,22 +83,17 @@ jobs:
         run: conda install -y anaconda-client conda-build
       - name: conda skeleton pypi ${{ matrix.project-name }}
         run: conda skeleton pypi ${{ matrix.project-name }} --python-version 3.7  --output-dir conda
-      
-      - name: list
-        run: |
-            pwd
-            ls
 
       - name: generate conda recipe
         run: python scripts/generate-conda-recipe.py
 
-      - name: conda build
-        run: conda build -c conda-forge --python 3.7 conda --output-folder anaconda
+      - name: conda config
+        run: conda config --add channels conda-forge
 
-      - name: conda install local
-        run: conda install -c conda-forge --use-local ${{ matrix.project-name }}
+      - name: conda build
+        run: conda build -c conda-forge conda --output-folder anaconda
 
       - name: conda convert
-        run: conda convert anaconda/*/${{ matrix.project-name }}*.tar.bz2 -p all
-      - name: anaconda upload 
-        run: export ANACONDA_API_TOKEN=${{ secrets.ANACONDA_TOKEN }} anaconda upload -c anaconda -c conda-forge anaconda/*/${{ matrix.project-name }}*.tar.bz2
+        run: conda convert anaconda/*/${{ matrix.project-name }}*.tar.bz2 -p all --output anaconda
+      - name: anaconda upload  
+        run: export ANACONDA_API_TOKEN=${{ secrets.ANACONDA_TOKEN }} anaconda upload -c conda-forge --label main anaconda/*/${{ matrix.project-name }}*.tar.bz2
