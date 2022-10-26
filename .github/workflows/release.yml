@@ -70,11 +70,10 @@ jobs:
         with:
           python-version: 3.7
       - name: Setup conda
-        uses: s-weigand/setup-conda@v1
+        uses: conda-incubator/setup-miniconda@v2
         with:
-          update-conda: false
-          python-version: 3.7
-          conda-channels: anaconda, conda-forge
+          python-version: 3.6
+          channels: conda-forge,defaults
       - name: install anaconda-client conda-build
         run: conda install -y anaconda-client conda-build
       - name: conda skeleton pypi floralatin-hubble-sdk
