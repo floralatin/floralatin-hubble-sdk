@@ -85,7 +85,13 @@ jobs:
 
           ls 
       - name: use conda build
-        run: conda build -c conda-forge --python 3.7 .  --output floralatin-hubble-sdk 
+        run: conda-build -c conda-forge --python 3.7 .  --output-folder floralatin-hubble-sdk 
 
       - name: use conda build
         run: export anaconda upload 
+      
+      - name: use conda list
+        run: |
+          conda info
+
+          ls 
