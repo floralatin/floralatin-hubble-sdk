@@ -66,16 +66,14 @@ jobs:
       - uses: actions/checkout@v3
         with:
           lfs: true
-      - name: Set up Python 3.7
-        uses: actions/setup-python@v3
-        with:
-          python-version: 3.7
       - name: Setup conda
         uses: s-weigand/setup-conda@v1
         with:
           update-conda: true
           python-version: 3.7
           conda-channels: anaconda, conda-forge
+      - name: install conda-build
+        run: conda install conda-build
       - name: use conda
         run: conda skeleton pypi floralatin-hubble-sdk --output-dir ./conda
       - name: publish-to-conda
