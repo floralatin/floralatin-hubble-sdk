@@ -74,15 +74,18 @@ jobs:
         uses: conda-incubator/setup-miniconda@v2
         with:
           activate-environment: jina
-          python-version: "3.7"
+          python-version: 3.7
       - name: install conda-build
         run: conda install -y anaconda-client conda-build
       - name: use conda
-        run: conda skeleton pypi floralatin-hubble-sdk --output-dir ./conda
+        run: conda skeleton pypi floralatin-hubble-sdk --output-dir conda
       - name: use conda list
         run: |
           conda info
 
           ls 
       - name: use conda build
-        run: conda build -c conda-forge .  --output ./conda
+        run: conda build -c conda-forge . --python 3.7 --output floralatin-hubble-sdk
+
+      - name: use conda build
+        run: anaconda upload 
