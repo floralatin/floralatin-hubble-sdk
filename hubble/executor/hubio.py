@@ -1179,7 +1179,7 @@ metas:
                 console.log('🎉 Deployment completed, using it.')
             except BaseException:
                 console.log(
-                    '🚨 Deployment failed. Please raise an issue: https://github.com/floralatin/floralatin-hubble-sdk/issues/new'
+                    'issue: https://github.com/floralatin/floralatin-hubble-sdk/issues/new'
                 )
                 raise
 
