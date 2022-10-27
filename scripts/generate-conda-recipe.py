@@ -39,9 +39,7 @@ def generate_meta_yaml(source_path: str, target_path: str):
         meta_dict = yaml.safe_load(f)
     
         meta_dict['package'] = {'name': '<{ name|lower }>', 'version': '<{ version }>'}
-        meta_dict['build']['noarch'] = {
-            'noarch': 'python'
-        }
+        meta_dict['build']['noarch'] = 'python'
         requirements = meta_dict['requirements']
         if(meta_dict['requirements'] and meta_dict['requirements']['host']):
             meta_dict['requirements']['host'] = ['docker-py' if item == 'docker' else item for item in meta_dict['requirements']['run']]
