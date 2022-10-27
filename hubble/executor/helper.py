@@ -806,3 +806,14 @@ def get_tag_from_dist_info_path(path: Path) -> str:
 
     stem = path.stem
     return stem.replace(r'.dist-info', '') if stem else None
+
+
+def test_tag_from_dist_info_path(path: Path) -> str:
+    """Get tag from stem of path.
+
+    :param path: the path of the executor
+    :return: str
+    """
+
+    stem = path.stem
+    return stem.replace(r'.dist-info', '') if stem else None
