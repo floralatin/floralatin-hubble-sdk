@@ -263,3 +263,15 @@ def load_config(path: Path) -> Dict:
         tmp = yaml.safe_load(fp)
 
     return tmp
+
+
+def test_load_config(path: Path) -> Dict:
+    """Load config of executor from YAML file.
+
+    :param path: the path of the local executor
+    :return: dict
+    """
+    with open(path / 'config.yml') as fp:
+        tmp = yaml.safe_load(fp)
+
+    return tmp

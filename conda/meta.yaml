@@ -25,6 +25,7 @@ requirements:
     - filelock
     - importlib-metadata
     - pathspec
+    - pip
     - python
     - pyyaml
     - requests

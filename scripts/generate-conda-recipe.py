@@ -1,5 +1,5 @@
 import yaml
-import json
+import sys
 
 class RecipeDumper(yaml.SafeDumper):
     """Adds a line break between top level objects and ignore aliases"""
@@ -16,6 +16,7 @@ class RecipeDumper(yaml.SafeDumper):
         return super().increase_indent(flow=flow, indentless=False)
 
 def delete_lines(file: str, line: int):
+    """Delete a line from the file head"""
     with open(file, 'r') as fr:
         read_lines = fr.readlines()
 
@@ -25,26 +26,42 @@ def delete_lines(file: str, line: int):
 
 
 def get_lines(file: str, start: int, end: int):
+    """Get lines from the file"""
+
     with open(file, 'r') as fr:
         read_lines = fr.readlines()
     return read_lines[ start:end ]
 
 
+def replace_package_name(requirements: list, old: str, new: str):
+    """Get lines from the file"""
+    replace_requirements = []
+    for package_name in requirements:
+        if package_name == old:
+            replace_requirements.append(new)
+        else:
+            replace_requirements.append(package_name)
+    return replace_requirements 
+
 def generate_meta_yaml(source_path: str, target_path: str):
+    """Generate conda meta yaml"""
 
     save_lines = get_lines(source_path, 0, 2)
     delete_lines(source_path, 2)
 
     with open(source_path) as f:
         meta_dict = yaml.safe_load(f)
-    
+
         meta_dict['package'] = {'name': '<{ name|lower }>', 'version': '<{ version }>'}
+
+        # build noarch package
         meta_dict['build']['noarch'] = 'python'
-        requirements = meta_dict['requirements']
+
         if(meta_dict['requirements'] and meta_dict['requirements']['host']):
-            meta_dict['requirements']['host'] = ['docker-py' if item == 'docker' else item for item in meta_dict['requirements']['run']]
+            meta_dict['requirements']['host'] = replace_package_name(meta_dict['requirements']['host'], 'docker', 'docker-py')
+
         if(meta_dict['requirements'] and meta_dict['requirements']['run']):
-            meta_dict['requirements']['run'] = ['docker-py' if item == 'docker' else item for item in meta_dict['requirements']['run']]
+            meta_dict['requirements']['run'] = replace_package_name(meta_dict['requirements']['run'], 'docker', 'docker-py')
 
     recipe = yaml.dump(
         meta_dict,
@@ -66,4 +83,4 @@ def generate_meta_yaml(source_path: str, target_path: str):
     with open(target_path, 'w+') as fp:
         fp.write(recipe)
 
-generate_meta_yaml("conda/floralatin-hubble-sdk3/meta.yaml", 'conda/meta.yaml')
+generate_meta_yaml(sys.argv[1], sys.argv[2])

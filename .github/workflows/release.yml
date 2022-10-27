@@ -6,10 +6,6 @@ on:
       - main
       - alpha
       - beta
-  release:
-    types:
-      - "released"
-  
 
 jobs:
   style-lint-test:
@@ -33,8 +29,9 @@ jobs:
         with:
           files: ./coverage.xml
 
-  release:
+  release-pypi:
     runs-on: ubuntu-latest
+    needs: style-lint-test
     steps:
       - uses: actions/checkout@v3
       - name: Set up NodeJS
@@ -55,13 +52,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
+          PYPI_TOKEN: ${{ secrets.TWINE_PASSWORD }}
         run: npx semantic-release
-
   
   release-conda:
     runs-on: ubuntu-latest
-    needs: release
+    needs: release-pypi
     strategy:
       matrix:
         project-name: ["floralatin-hubble-sdk3"]
@@ -79,21 +75,31 @@ jobs:
           update-conda: true
           python-version: 3.7
           conda-channels: anaconda, conda-forge
-      - name: install conda-build
-        run: conda install -y conda-build anaconda-client
-      - name: conda skeleton pypi ${{ matrix.project-name }}
-        run: conda skeleton pypi ${{ matrix.project-name }}  --output-dir conda
-
-      - name: generate conda recipe
-        run: python scripts/generate-conda-recipe.py
-
-      - name: conda build
-        run: conda build -c conda-forge conda --output-folder anaconda
-
-      - name: anaconda login 
-        run: |
-          anaconda login --username floralatin --password TANkai521
+      - name: Install anaconda-client conda-build conda-verify
+        run: conda install -y anaconda-client conda-build conda-verify
+      - name: Use conda skeleton pypi ${{ matrix.project-name }}
+        run: conda skeleton pypi ${{ matrix.project-name }} --output-dir conda
+      - name: Generate conda recipe
+        run: python scripts/generate-conda-recipe.py "conda/${{ matrix.project-name }}/meta.yaml" "conda/meta.yaml"
+      - name: Use conda build
+        run: conda build -c conda-forge conda --output-folder dist 
+      - name: Anaconda login 
+        run: anaconda login --username ${{ secrets.ANACONDA_USERNAME }} --password ${{ secrets.ANACONDA_PASSWORD }}
+      - name: Anaconda upload  
+        run: anaconda upload -c conda-forge --label main dist/*/${{ matrix.project-name }}*.tar.bz2
       
-      - name: anaconda upload 
-        run: |
-          anaconda upload -c conda-forge --label main anaconda/*/${{ matrix.project-name }}*.tar.bz2
+      - name: Get branch name
+        id: branch-name
+        uses: tj-actions/branch-names@v5
+      - uses: nrwl/last-successful-commit-action@v1
+        id: last_successful_commit_pull_request
+        with:
+          branch: ${{ steps.branch-name.outputs.base_ref_branch }} # Get the last successful commit on master or main branch 
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run changed-files with the commit of the last successful test workflow run on main
+        id: changed-files-base-sha-pull-request
+        uses: tj-actions/changed-files@v34
+        with:
+          file: conda/meta.yaml
+          base_sha: ${{ steps.last_successful_commit_pull_request.outputs.commit_hash }}
