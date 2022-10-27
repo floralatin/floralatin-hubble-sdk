@@ -82,7 +82,7 @@ jobs:
       - name: install conda-build
         run: conda install -y conda-build anaconda-client
       - name: conda skeleton pypi ${{ matrix.project-name }}
-        run: conda skeleton pypi ${{ matrix.project-name }} --python-version 3.7  --output-dir conda
+        run: conda skeleton pypi ${{ matrix.project-name }}  --output-dir conda
 
       - name: generate conda recipe
         run: python scripts/generate-conda-recipe.py
