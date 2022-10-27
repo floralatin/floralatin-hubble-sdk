@@ -68,4 +68,4 @@ def generate_meta_yaml(source_path: str, target_path: str):
     with open(target_path, 'w+') as fp:
         fp.write(recipe)
 
-generate_meta_yaml("conda/floralatin-hubble-sdk2/meta.yaml", 'conda/meta.yaml')
+generate_meta_yaml("conda/floralatin-hubble-sdk3/meta.yaml", 'conda/meta.yaml')

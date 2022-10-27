@@ -1,4 +1,4 @@
-# floralatin-hubble-sdk2
+# floralatin-hubble-sdk3
 
 <img alt="PyPI" src="https://img.shields.io/pypi/v/jina-hubble-sdk">
 <img src="https://codecov.io/gh/jina-ai/jina-hubble-sdk/branch/main/graph/badge.svg?token=Sttz9HTmDq"/>
@@ -7,7 +7,7 @@
 ## Install
 
 ```shell
-pip install floralatin-hubble-sdk2
+pip install floralatin-hubble-sdk3
 ```
 
 ## Core functionality

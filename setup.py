@@ -60,7 +60,7 @@ except FileNotFoundError:
 
 if __name__ == '__main__':
     setup(
-        name='floralatin-hubble-sdk2',
+        name='floralatin-hubble-sdk3',
         packages=find_packages(exclude=_package_exclude),
         include_package_data=True,
         description=_description,

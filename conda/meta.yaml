@@ -1,4 +1,4 @@
-{% set name = "floralatin-hubble-sdk2" %}
+{% set name = "floralatin-hubble-sdk3" %}
 {% set version = "1.0.2" %}
 package:
   name: {{ name|lower }}
