@@ -90,5 +90,5 @@ jobs:
       - name: conda build
         run: conda build -c conda-forge conda --output-folder anaconda
 
-      - name: anaconda upload
-        run: anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload -c conda-forge --label main anaconda/*/${{ matrix.project-name }}*.tar.bz2
+      - name: anaconda upload 
+        run: export ANACONDA_TOKEN=${{secrets.ANACONDA_TOKEN }} anaconda -c conda-forge --label main anaconda/*/${{ matrix.project-name }}*.tar.bz2
