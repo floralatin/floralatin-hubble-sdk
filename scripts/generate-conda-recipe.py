@@ -56,7 +56,7 @@ def generate_meta_yaml(source_path: str, target_path: str):
     recipe = recipe.replace('<{', '{{').replace('}>', '}}')
 
     recipe_header = ''
-    for index, line in enumerate(save_lines):
+    for line in save_lines:
         recipe_header =  f'{recipe_header}{line}'
     recipe = recipe_header + recipe
 
