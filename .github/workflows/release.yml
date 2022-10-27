@@ -87,9 +87,6 @@ jobs:
       - name: generate conda recipe
         run: python scripts/generate-conda-recipe.py
 
-      - name: conda config
-        run: conda config --add channels conda-forge
-
       - name: conda build
         run: conda build -c conda-forge conda --output-folder anaconda
 
