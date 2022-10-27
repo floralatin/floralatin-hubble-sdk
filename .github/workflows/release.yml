@@ -64,7 +64,7 @@ jobs:
     needs: release
     strategy:
       matrix:
-        project-name: ["floralatin-hubble-sdk"]
+        project-name: ["floralatin-hubble-sdk2"]
     steps:
       - uses: actions/checkout@v3
         with:
