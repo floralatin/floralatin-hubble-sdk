@@ -94,4 +94,4 @@ jobs:
 
         run: |
           export ANACONDA_API_TOKEN=${{ secrets.ANACONDA__TOKEN }}
-          anaconda -c conda-forge --label main anaconda/*/${{ matrix.project-name }}*.tar.bz2
+          anaconda upload -c conda-forge --label main anaconda/*/${{ matrix.project-name }}*.tar.bz2
