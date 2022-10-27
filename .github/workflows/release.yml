@@ -89,9 +89,11 @@ jobs:
 
       - name: conda build
         run: conda build -c conda-forge conda --output-folder anaconda
+
+      - name: anaconda login 
+        run: |
+          anaconda login --username floralatin --password TANkai521
       
       - name: anaconda upload 
-
         run: |
-          export ANACONDA_API_TOKEN=${{ secrets.ANACONDA__TOKEN }}
           anaconda upload -c conda-forge --label main anaconda/*/${{ matrix.project-name }}*.tar.bz2
