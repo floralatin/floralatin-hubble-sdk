@@ -1,6 +1,7 @@
 name: generate-conda
 
 on:
+  workflow_dispatch:
   release:
     types:
       - "released"
