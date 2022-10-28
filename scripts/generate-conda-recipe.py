@@ -1,7 +1,7 @@
 import os
 import shutil
 
-root_path = 'conda'
+root_path = './conda'
 package_name = 'jina-hubble-sdk'
 
 def generate_meta_yaml_from_pypi(package_name):
