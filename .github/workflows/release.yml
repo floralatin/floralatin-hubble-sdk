@@ -60,7 +60,7 @@ jobs:
   #   needs: release-pypi
   #   strategy:
   #     matrix:
-  #       project-name: ["floralatin-hubble-sdk7"]
+  #       project-name: ["floralatin-hubble-sdk8"]
   #   steps:
   #     - uses: actions/checkout@v3
   #       with:
