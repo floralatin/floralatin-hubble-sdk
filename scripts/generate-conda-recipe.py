@@ -2,7 +2,7 @@ import os
 import shutil
 
 root_path = './conda'
-package_name = 'floralatin-hubble-sdk8'
+package_name = 'floralatin-hubble-sdk9'
 
 def generate_meta_yaml_from_pypi(package_name):
     maintainers = 'mapleeit,nomagick,delgermurun,floralatin'
