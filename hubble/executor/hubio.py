@@ -661,7 +661,7 @@ metas:
             except Exception as e:  # IO related errors
                 self.logger.error(
                     f'Please report this session_id: [yellow bold]{req_header["jinameta-session-id"]}[/] '
-                    'to https://github.com/floraltin/floralatin-hubble-sdk6/issues'
+                    'to https://github.com/floraltin/floralatin-hubble-sdk7/issues'
                 )
                 raise e
 
@@ -1179,7 +1179,7 @@ metas:
                 console.log('🎉 Deployment completed, using it.')
             except BaseException:
                 console.log(
-                    'issue: https://github.com/floralatin/floralatin-hubble-sdk6/issues/new'
+                    'issue: https://github.com/floralatin/floralatin-hubble-sdk7/issues/new'
                 )
                 raise
 
