@@ -1,0 +1,26 @@
+name: CD
+
+on:
+  release:
+    types:
+      - "released"
+
+jobs:
+  generate-conda:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: 3.7
+      - name: Install grayskull
+        run: python -m pip install --upgrade grayskull
+      - name: Generate conda recipe
+        run: python scripts/generate-conda-recipe.py
+
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Auto generate conda meta
