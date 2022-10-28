@@ -205,7 +205,7 @@ def get_full_version() -> Optional[Tuple[Dict, Dict]]:
             'proto-backend': metas.get('proto-backend') or __unset_msg__,
             'grpcio': metas.get('grpcio') or __unset_msg__,
             'pyyaml': metas.get('pyyaml') or __unset_msg__,
-            'floralatin-hubble-sdk5': __hubble_version__,
+            'floralatin-hubble-sdk6': __hubble_version__,
             'python': platform.python_version(),
             'platform': platform.system(),
             'platform-release': platform.release(),
